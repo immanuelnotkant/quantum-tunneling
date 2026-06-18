@@ -351,6 +351,7 @@
     #canvasWrap {
       position: relative;
       min-height: 360px;
+      overflow: hidden;
     }
 
     canvas {
@@ -845,19 +846,19 @@
       /* ============================== CANVAS SIZING ============================== */
       let cssW = 0, cssH = 0;
 
-      // Optimized resize function that keeps tracking variables alive but drops element style modifications
       function resizeCanvas() {
         const rect = canvasWrap.getBoundingClientRect();
 
-        // RESTORED: These are required by the render engine to map coordinates!
         cssW = rect.width;
         cssH = rect.height;
 
         const dpr = window.devicePixelRatio || 1;
 
-        // Updates internal rendering resolution only (completely avoids modifying element styles)
         canvas.width = Math.round(cssW * dpr);
         canvas.height = Math.round(cssH * dpr);
+
+        canvas.style.width = cssW + 'px';
+        canvas.style.height = cssH + 'px';
 
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       }
